@@ -41,45 +41,29 @@ The pipeline consists of eleven consecutive steps:
 
 ```
 .
-├── data/               # Raw and processed datasets (see note below)
-├── notebooks/          # Pipeline development notebooks
-├── src/
-│   ├── preprocessing/  # Data cleaning, filtering, text_input construction
-│   ├── embedding/      # SPECTER embedding generation
-│   ├── graph/          # UMAP + FAISS kNN graph construction
-│   ├── gnn/            # GraphSAGE model (representation learning)
-│   ├── clustering/     # HDBSCAN + Optuna tuning
-│   ├── labeling/       # TF-IDF keyword extraction + LLM topic labeling
-│   └── trend_analysis/ # Era-based, growth-rate, and ranking analysis
-├── figures/             # Visualizations used in the thesis document
-├── requirements.txt
+├── Skripsi_final_revisi.ipynb   # Full end-to-end pipeline notebook
+│                                 # (Import → Load Dataset → Preprocessing →
+│                                 #  Embedding → Dim. Reduction → Graph Construction →
+│                                 #  GNN Representation Learning → Dim. Reduction →
+│                                 #  Clustering → Keyword Extraction → Topic Labeling →
+│                                 #  Trend Analysis → Visualization)
 └── README.md
 ```
+
+The entire pipeline is implemented in a single Google Colab notebook, organized into the sections listed above, run top to bottom.
 
 > **Note on data:** The full dataset is not included in this repository due to size. Source: ["AI Articles scrapped from arXiv & SemanticScholar"](https://www.kaggle.com/datasets/ddarryl/ai-articles-scrapped-from-arxiv-and-semanticscholar) (Kaggle).
 
 ## Setup
 
-```bash
-git clone https://github.com/<username>/llm-guided-graph-clustering.git
-cd llm-guided-graph-clustering
-pip install -r requirements.txt
-```
-
-You'll also need a **Groq API key** for the LLM-based topic labeling stage (set as an environment variable, e.g. `GROQ_API_KEY`).
+1. Open `Skripsi_final_revisi.ipynb` in [Google Colab](https://colab.research.google.com/)
+2. Install dependencies (handled via `!pip install` cells inside the notebook — SPECTER/SentenceTransformers, UMAP, FAISS, PyTorch Geometric, HDBSCAN, Optuna, Groq)
+3. Add your **Groq API key** to Colab Secrets (🔑 icon in the sidebar) under the name `GROQ_API_KEY` — required for the LLM-based topic labeling step
+4. Run the notebook cells in order, from top to bottom
 
 ## Usage
 
-```bash
-# Example — adjust to your actual scripts/notebooks
-python src/preprocessing/clean_and_filter.py
-python src/embedding/generate_embeddings.py
-python src/graph/build_knn_graph.py
-python src/gnn/train_graphsage.py
-python src/clustering/run_hdbscan_optuna.py
-python src/labeling/extract_keywords_and_label.py
-python src/trend_analysis/analyze_trends.py
-```
+Run all cells sequentially in `Skripsi_final_revisi.ipynb`. Each major stage is marked with a markdown header (Import, Load Dataset, Data Preprocessing, Embedding, Dimensionality Reduction, Graph Construction, GNN Representation Learning, Clustering, Keyword Extraction, Topic Labeling, Trend Analysis, Visualization).
 
 ## Tech Stack
 
